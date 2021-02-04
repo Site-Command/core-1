@@ -37,13 +37,21 @@ jobs:
       - name: Set Common Vars
         run: |
           BRANCH=$(basename "${{ github.ref }}")
+
+          if [[ ${BRANCH} =~ ^release-.* ]]; then
+            IS_RELEASE='true'
+          else
+            IS_RELEASE='false'
+          fi
+
           echo "BRANCH=${BRANCH}" >> $GITHUB_ENV
           echo "EE_BRANCH=${BRANCH}" >> $GITHUB_ENV
           echo "BASE_FOLDER=$(pwd)" >> $GITHUB_ENV
-          docker --version
+          echo "IS_RELEASE=${IS_RELEASE}" >> $GITHUB_ENV
       - name: Prepare dot-cicd
         run: |
           sh -c "$(curl -fsSL https://raw.githubusercontent.com/dotCMS/dot-cicd/${DOT_CICD_BRANCH}/seed/install-dot-cicd.sh)"
+          docker --version
       - name: Build DotCMS Release Docker Image
         run: |
           dotcicd/library/pipeline.sh buildRelease
@@ -53,5 +61,5 @@ jobs:
           dotcicd/library/pipeline.sh runRelease
       - name: Publish Docker Multiarch Image
         run: |
-          dotcicd/library/pipeline.sh publishDockerImage ${{ env.GITHUB_USER }} ${{ env.GITHUB_USER_TOKEN }} ${{ env.BRANCH }} false ${{ env.DOCKER_USERNAME }} ${{ env.DOCKER_PASSWORD }}
+          dotcicd/library/pipeline.sh publishDockerImage ${{ env.GITHUB_USER }} ${{ env.GITHUB_USER_TOKEN }} ${{ env.BRANCH }} ${{ env.IS_RELEASE }} ${{ env.DOCKER_USERNAME }} ${{ env.DOCKER_PASSWORD }}
 
