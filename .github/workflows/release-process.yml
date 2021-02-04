@@ -62,4 +62,3 @@ jobs:
       - name: Publish Docker Multiarch Image
         run: |
           dotcicd/library/pipeline.sh publishDockerImage ${{ env.GITHUB_USER }} ${{ env.GITHUB_USER_TOKEN }} ${{ env.BRANCH }} ${{ env.IS_RELEASE }} ${{ env.DOCKER_USERNAME }} ${{ env.DOCKER_PASSWORD }}
-
