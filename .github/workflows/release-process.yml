@@ -51,7 +51,6 @@ jobs:
       - name: Prepare dot-cicd
         run: |
           sh -c "$(curl -fsSL https://raw.githubusercontent.com/dotCMS/dot-cicd/${DOT_CICD_BRANCH}/seed/install-dot-cicd.sh)"
-          docker --version
 #      - name: Build DotCMS Release Docker Image
 #        run: |
 #          dotcicd/library/pipeline.sh buildRelease
