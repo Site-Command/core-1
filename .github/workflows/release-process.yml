@@ -130,7 +130,7 @@ jobs:
         with:
           secrets: |
             GIT_AUTH_TOKEN=${{ secrets.USER_TOKEN }}
-          file: ../docker/images/dotcms/Dockerfile
+          file: ./docker/images/dotcms/Dockerfile
           platforms: linux/amd64,linux/arm64
           pull: true
           push: true
