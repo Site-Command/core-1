@@ -64,6 +64,28 @@ jobs:
     runs-on: ubuntu-18.04
     needs: release-process
     steps:
+      - name: GITHUB CONTEXT
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "${GITHUB_CONTEXT}"
+        if: env.DEBUG == 'true'
+      - name: Set Common Vars
+        run: |
+          BRANCH=$(basename "${{ github.ref }}")
+
+          if [[ ${BRANCH} =~ ^release-.* ]]; then
+            IS_RELEASE='true'
+          else
+            IS_RELEASE='false'
+          fi
+
+          echo "BRANCH=${BRANCH}" >> $GITHUB_ENV
+          echo "EE_BRANCH=${BRANCH}" >> $GITHUB_ENV
+          echo "BASE_FOLDER=$(pwd)" >> $GITHUB_ENV
+          echo "IS_RELEASE=${IS_RELEASE}" >> $GITHUB_ENV
+      - name: Prepare dot-cicd
+        run: |
+          sh -c "$(curl -fsSL https://raw.githubusercontent.com/dotCMS/dot-cicd/${DOT_CICD_BRANCH}/seed/install-dot-cicd.sh)"
       - name: Check out Docker Repo
         run: |
           dotcicd/library/pipeline.sh publishDockerImage ${{ env.GITHUB_USER }} ${{ env.GITHUB_USER_TOKEN }} ${{ env.BRANCH }} ${{ env.IS_RELEASE }}
