@@ -5,7 +5,7 @@ on:
 jobs:
   release-process:
     name: Release Process Automation
-    runs-on: macos-latest
+    runs-on: ubuntu-18.04
     env:
       DOT_CICD_BRANCH: 18562-automate-release-process
       DOT_CICD_CLOUD_PROVIDER: github
@@ -58,6 +58,14 @@ jobs:
 #      - name: Run DotCMS Release Docker Image
 #        run: |
 #          dotcicd/library/pipeline.sh runRelease
-      - name: Publish Docker Multiarch Image
+#      - name: Publish Docker Multiarch Image
+#        run: |
+#          dotcicd/library/pipeline.sh publishDockerImage ${{ env.GITHUB_USER }} ${{ env.GITHUB_USER_TOKEN }} ${{ env.BRANCH }} ${{ env.IS_RELEASE }} ${{ env.DOCKER_USERNAME }} ${{ env.DOCKER_PASSWORD }}
+  build-push-docker-image:
+    name: Build push docker multiarch image
+    runs-on: ubuntu-18.04
+    needs: release-process
+    steps:
+      - name: Check out docker repo
         run: |
           dotcicd/library/pipeline.sh publishDockerImage ${{ env.GITHUB_USER }} ${{ env.GITHUB_USER_TOKEN }} ${{ env.BRANCH }} ${{ env.IS_RELEASE }} ${{ env.DOCKER_USERNAME }} ${{ env.DOCKER_PASSWORD }}
