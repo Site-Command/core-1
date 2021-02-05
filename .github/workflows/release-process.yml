@@ -66,7 +66,7 @@ jobs:
       DOT_CICD_BRANCH: 18562-automate-release-process
       DOT_CICD_CLOUD_PROVIDER: github
       DOT_CICD_TARGET: core
-    needs: release-process
+    needs: [release-process]
     steps:
       - name: GITHUB CONTEXT
         env:
