@@ -1,5 +1,5 @@
 [submodule "dotCMS/src/main/enterprise"]
 	path = dotCMS/src/main/enterprise
-	url = git@github.com:dotCMS/enterprise.git
+	url = https://github.com/dotCMS/enterprise.git
 	branch = 18562-automate-release-process
 	ignore = dirty
